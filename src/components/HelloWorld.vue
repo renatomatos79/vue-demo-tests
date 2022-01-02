@@ -16,43 +16,24 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { required, email } from "vuelidate/lib/validators";
-import { EmailInterface } from "@/interfaces/email-interface";
+import { EmailInterface, myValidations } from "@/interfaces/email-interface";
 import { EmailModel } from "@/models/email-model";
-import { IVuelidate, ValidationRuleset, Vuelidate } from "vuelidate";
+import { IVuelidate, Vuelidate } from "vuelidate";
 
-const myValidations: ValidationRuleset<EmailInterface> = {
-  formData: {
-    email: {
-      email,
-      required,
+@Component({
+  validations: {
+    formData: {
+      ...myValidations,
     },
   },
-};
-
-@Component({ validations: myValidations })
+})
 export default class HelloWorld
   extends Vue
   implements IVuelidate<EmailInterface>
 {
-  constructor() {
-    super();
-  }
-
   $v: Vuelidate<EmailInterface>;
 
   public formData = new EmailModel();
-
-  validations:
-    | {
-        formData: {
-          email: {
-            required: required;
-            email: email;
-          };
-        };
-      }
-    | undefined;
 }
 </script>
 
